@@ -48,7 +48,8 @@
         "payload": {},
         "environmentVariables": {},
         "runtime": "nodejs24.x"
-      }
+      },
+      "sourceRoot": "${workspaceFolder}/src/micro-quiz-v2/answer-submission"
     },
     {
       "type": "aws-sam",
@@ -68,7 +69,8 @@
       },
       "lambda": {
         "runtime": "nodejs24.x"
-      }
+      },
+      "sourceRoot": "${workspaceFolder}/src/micro-quiz-v2/answer-submission"
     }
   ]
 }
