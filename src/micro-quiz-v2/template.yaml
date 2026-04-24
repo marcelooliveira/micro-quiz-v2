@@ -26,6 +26,21 @@ Resources:
             Path: /hello
             Method: get
 
+  AnswerSubmissionFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: answer-submission/
+      Handler: dist/app.lambdaHandler
+      Runtime: nodejs24.x
+      Architectures:
+        - x86_64
+      Events:
+        AnswerSubmission:
+          Type: Api
+          Properties:
+            Path: /answer-submission
+            Method: post
+
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM
@@ -39,3 +54,12 @@ Outputs:
   HelloWorldFunctionIamRole:
     Description: "Implicit IAM Role created for Hello World function"
     Value: !GetAtt HelloWorldFunctionRole.Arn
+  AnswerSubmissionApi:
+    Description: "API Gateway endpoint URL for Prod stage for Answer Submission function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/Prod/answer-submission/"
+  AnswerSubmissionFunction:
+    Description: "Answer Submission Lambda Function ARN"
+    Value: !GetAtt AnswerSubmissionFunction.Arn
+  AnswerSubmissionFunctionIamRole:
+    Description: "Implicit IAM Role created for Answer Submission function"
+    Value: !GetAtt AnswerSubmissionFunctionRole.Arn

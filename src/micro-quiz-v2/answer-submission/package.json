@@ -1,0 +1,17 @@
+{
+  "name": "answer-submission",
+  "version": "1.0.0",
+  "description": "answer submission handler for micro-quiz-v2",
+  "main": "dist/app.js",
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.145",
+    "@types/node": "^22.0.0",
+    "typescript": "^5.4.5"
+  }
+}

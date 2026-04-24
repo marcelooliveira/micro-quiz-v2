@@ -34,6 +34,41 @@
       "lambda": {
         "runtime": "nodejs24.x"
       }
+    },
+    {
+      "type": "aws-sam",
+      "request": "direct-invoke",
+      "name": "micro-quiz-v2:AnswerSubmissionFunction (nodejs24.x)",
+      "invokeTarget": {
+        "target": "template",
+        "templatePath": "${workspaceFolder}/src/micro-quiz-v2/template.yaml",
+        "logicalId": "AnswerSubmissionFunction"
+      },
+      "lambda": {
+        "payload": {},
+        "environmentVariables": {},
+        "runtime": "nodejs24.x"
+      }
+    },
+    {
+      "type": "aws-sam",
+      "request": "direct-invoke",
+      "name": "API micro-quiz-v2:AnswerSubmissionFunction (nodejs24.x)",
+      "invokeTarget": {
+        "target": "api",
+        "templatePath": "${workspaceFolder}/src/micro-quiz-v2/template.yaml",
+        "logicalId": "AnswerSubmissionFunction"
+      },
+      "api": {
+        "path": "/answer-submission",
+        "httpMethod": "post",
+        "payload": {
+          "json": {}
+        }
+      },
+      "lambda": {
+        "runtime": "nodejs24.x"
+      }
     }
   ]
 }
