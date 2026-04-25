@@ -1,5 +1,5 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
-import { PutCommand } from '@aws-sdk/lib-dynamodb';
+// import { PutCommand } from '@aws-sdk/lib-dynamodb';
 // import { createDynamoDBClient } from '../shared/dynamodb-client';
 
 const ANSWERS_REGEX = /^[a-zA-Z](,[a-zA-Z])*$/;

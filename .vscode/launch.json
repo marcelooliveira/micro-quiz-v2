@@ -1,6 +1,14 @@
 {
   "configurations": [
     {
+      "name": "SAM: start local API",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "sam local start-api",
+      "cwd": "${workspaceFolder}/src/micro-quiz-v2",
+      "preLaunchTask": "sam: build"
+    },
+    {
       "type": "aws-sam",
       "request": "direct-invoke",
       "name": "micro-quiz-v2:HelloWorldFunction (nodejs24.x)",

@@ -1,0 +1,24 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "tsc: build answer-submission",
+      "type": "shell",
+      "command": "npm run build",
+      "options": {
+        "cwd": "${workspaceFolder}/src/micro-quiz-v2/answer-submission"
+      },
+      "group": "build"
+    },
+    {
+      "label": "sam: build",
+      "type": "shell",
+      "command": "sam build",
+      "options": {
+        "cwd": "${workspaceFolder}/src/micro-quiz-v2"
+      },
+      "dependsOn": ["tsc: build answer-submission"],
+      "dependsOrder": "sequence"
+    }
+  ]
+}
