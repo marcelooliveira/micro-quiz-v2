@@ -13,9 +13,19 @@ Globals:
 Resources:
   HelloWorldFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: false
+        Target: es2020
+        Sourcemap: true
+        EntryPoints:
+          - app.ts
+        External:
+          - "@aws-sdk/*"
     Properties:
       CodeUri: hello-world/
-      Handler: dist/app.lambdaHandler
+      Handler: app.lambdaHandler
       Runtime: nodejs24.x
       Architectures:
         - x86_64
@@ -28,9 +38,19 @@ Resources:
 
   AnswerSubmissionFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: false
+        Target: es2020
+        Sourcemap: true
+        EntryPoints:
+          - app.ts
+        External:
+          - "@aws-sdk/*"
     Properties:
       CodeUri: answer-submission/
-      Handler: dist/app.lambdaHandler
+      Handler: app.lambdaHandler
       Runtime: nodejs24.x
       Architectures:
         - x86_64
