@@ -4,9 +4,22 @@
       "name": "SAM: start local API",
       "type": "node-terminal",
       "request": "launch",
-      "command": "sam local start-api",
+      "command": "sam local start-api -d 5858",
       "cwd": "${workspaceFolder}/src/micro-quiz-v2",
       "preLaunchTask": "sam: build"
+    },
+    {
+        "name": "Attach to SAM Local",
+        "type": "node",
+        "request": "attach",
+        "address": "127.0.0.1",
+        "port": 5858,
+        "localRoot": "${workspaceFolder}/src/micro-quiz-v2/.aws-sam/build/AnswerSubmissionFunction",
+        "remoteRoot": "/var/task",
+        "sourceMaps": true,
+        "sourceMapPathOverrides": {
+            "../*": "${workspaceFolder}/src/micro-quiz-v2/answer-submission/*"
+        }
     },
     {
       "type": "aws-sam",
