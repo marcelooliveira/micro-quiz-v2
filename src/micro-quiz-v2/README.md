@@ -120,8 +120,49 @@ To delete the sample application that you created, use the AWS CLI. Assuming you
 sam delete --stack-name micro-quiz-v2
 ```
 
+## Local Development with LocalStack
+
+To run the application locally against a local DynamoDB instance, use [LocalStack](https://localstack.cloud/).
+
+**1. Start LocalStack:**
+
+```bash
+docker run -d --name localstack -p 4566:4566 -e SERVICES=dynamodb localstack/localstack
+```
+
+**2. Create the DynamoDB table:**
+
+```bash
+aws dynamodb create-table \
+  --table-name quiz-answers \
+  --billing-mode PAY_PER_REQUEST \
+  --attribute-definitions AttributeName=studentId,AttributeType=S AttributeName=questionId,AttributeType=S \
+  --key-schema AttributeName=studentId,KeyType=HASH AttributeName=questionId,KeyType=RANGE \
+  --endpoint-url http://127.0.0.1:4566 \
+  --region us-east-1
+```
+
+**3. Build and start the local server:**
+
+```bash
+cd answer-submission
+npm run build
+```
+
+```powershell
+# PowerShell
+$env:AWS_ENDPOINT_URL = "http://localhost:4566"
+npm run start:local
+```
+
+```bash
+# Bash
+AWS_ENDPOINT_URL=http://localhost:4566 npm run start:local
+```
+
 ## Resources
 
 See the [AWS SAM developer guide](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html) for an introduction to SAM specification, the SAM CLI, and serverless application concepts.
 
 Next, you can use AWS Serverless Application Repository to deploy ready to use Apps that go beyond hello world samples and learn how authors developed their applications: [AWS Serverless Application Repository main page](https://aws.amazon.com/serverless/serverlessrepo/)
+

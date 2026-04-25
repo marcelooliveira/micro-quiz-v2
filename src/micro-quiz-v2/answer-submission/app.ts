@@ -64,7 +64,8 @@ export const lambdaHandler = async (
         },
       }),
     );
-  } catch {
+  } catch (err) {
+    console.error('Error saving answer submission:', err);
     return json(500, { error: 'Internal error' });
   }
 
