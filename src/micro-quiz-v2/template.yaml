@@ -59,6 +59,36 @@ Resources:
             Path: /answer-submission
             Method: post
 
+  GradingSchedulerFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: false
+        Target: es2020
+        Sourcemap: true
+        EntryPoints:
+          - app.ts
+        External:
+          - "@aws-sdk/*"
+    Properties:
+      CodeUri: grading-scheduler/
+      Handler: dist/grading-scheduler/app.handler
+      Runtime: nodejs24.x
+      Architectures:
+        - x86_64
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref QuizAnswersTable
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref QuizAnswersTable
+      Events:
+        GradingSchedule:
+          Type: Schedule
+          Properties:
+            Schedule: rate(1 minute)
+
 Outputs:
   AnswerSubmissionApi:
     Description: "API Gateway endpoint URL for Prod stage for Answer Submission function"

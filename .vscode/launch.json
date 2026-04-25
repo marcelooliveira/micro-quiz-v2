@@ -1,4 +1,14 @@
 {
+  "compounds": [
+    {
+      "name": "Local: answer-submission + grading-scheduler",
+      "configurations": [
+        "Answer Submission: local (no Docker)",
+        "Grading Scheduler: local (no Docker)"
+      ],
+      "stopAll": true
+    }
+  ],
   "configurations": [
     {
       "name": "Answer Submission: local (no Docker)",
@@ -9,6 +19,23 @@
       "preLaunchTask": "tsc: build answer-submission",
       "sourceMaps": true,
       "outFiles": ["${workspaceFolder}/src/micro-quiz-v2/answer-submission/dist/**/*.js"],
+      "env": {
+        "TABLE_NAME": "quiz-answers",
+        "AWS_ENDPOINT_URL": "http://localhost:4566",
+        "AWS_ACCESS_KEY_ID": "test",
+        "AWS_SECRET_ACCESS_KEY": "test",
+        "AWS_REGION": "us-east-1"
+      }
+    },
+    {
+      "name": "Grading Scheduler: local (no Docker)",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/micro-quiz-v2/grading-scheduler/dist/grading-scheduler/local-runner.js",
+      "cwd": "${workspaceFolder}/src/micro-quiz-v2/grading-scheduler",
+      "preLaunchTask": "tsc: build grading-scheduler",
+      "sourceMaps": true,
+      "outFiles": ["${workspaceFolder}/src/micro-quiz-v2/grading-scheduler/dist/**/*.js"],
       "env": {
         "TABLE_NAME": "quiz-answers",
         "AWS_ENDPOINT_URL": "http://localhost:4566",

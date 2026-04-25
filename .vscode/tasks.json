@@ -11,13 +11,22 @@
       "group": "build"
     },
     {
+      "label": "tsc: build grading-scheduler",
+      "type": "shell",
+      "command": "npm run build",
+      "options": {
+        "cwd": "${workspaceFolder}/src/micro-quiz-v2/grading-scheduler"
+      },
+      "group": "build"
+    },
+    {
       "label": "sam: build",
       "type": "shell",
       "command": "sam build",
       "options": {
         "cwd": "${workspaceFolder}/src/micro-quiz-v2"
       },
-      "dependsOn": ["tsc: build answer-submission"],
+      "dependsOn": ["tsc: build answer-submission", "tsc: build grading-scheduler"],
       "dependsOrder": "sequence"
     }
   ]
