@@ -4,7 +4,7 @@
       "name": "Answer Submission: local (no Docker)",
       "type": "node",
       "request": "launch",
-      "program": "${workspaceFolder}/src/micro-quiz-v2/answer-submission/dist/local-server.js",
+      "program": "${workspaceFolder}/src/micro-quiz-v2/answer-submission/dist/answer-submission/local-server.js",
       "cwd": "${workspaceFolder}/src/micro-quiz-v2/answer-submission",
       "preLaunchTask": "tsc: build answer-submission",
       "sourceMaps": true,
@@ -14,7 +14,7 @@
       "name": "SAM: start local API",
       "type": "node-terminal",
       "request": "launch",
-      "command": "sam local start-api -d 5858",
+      "command": "sam local start-api -d 5858 --env-vars env.local.json",
       "cwd": "${workspaceFolder}/src/micro-quiz-v2",
       "preLaunchTask": "sam: build"
     },

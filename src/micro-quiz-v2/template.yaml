@@ -16,7 +16,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: answer-submission/
-      Handler: dist/app.lambdaHandler
+      Handler: dist/answer-submission/app.lambdaHandler
       Runtime: nodejs24.x
       Architectures:
         - x86_64

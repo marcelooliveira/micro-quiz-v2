@@ -1,6 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
-// import { PutCommand } from '@aws-sdk/lib-dynamodb';
-// import { createDynamoDBClient } from '../shared/dynamodb-client';
+import { PutCommand } from '@aws-sdk/lib-dynamodb';
+import { createDynamoDBClient } from '../shared/dynamodb-client';
 
 const ANSWERS_REGEX = /^[a-zA-Z](,[a-zA-Z])*$/;
 
@@ -50,23 +50,23 @@ export const lambdaHandler = async (
     return json(400, { error: 'Invalid answers format: only letters and commas are allowed' });
   }
 
-//   const client = createDynamoDBClient();
-//   try {
-//     await client.send(
-//       new PutCommand({
-//         TableName: process.env.TABLE_NAME,
-//         Item: {
-//           studentId,
-//           questionId,
-//           answers,
-//           status: 'pending',
-//           updatedAt: new Date().toISOString(),
-//         },
-//       }),
-//     );
-//   } catch {
-//     return json(500, { error: 'Internal error' });
-//   }
+  const client = createDynamoDBClient();
+  try {
+    await client.send(
+      new PutCommand({
+        TableName: process.env.TABLE_NAME,
+        Item: {
+          studentId,
+          questionId,
+          answers,
+          status: 'pending',
+          updatedAt: new Date().toISOString(),
+        },
+      }),
+    );
+  } catch {
+    return json(500, { error: 'Internal error' });
+  }
 
   return json(200, { studentId, questionId, status: 'pending' });
 };
