@@ -11,30 +11,22 @@ Globals:
     Timeout: 3
 
 Resources:
-  HelloWorldFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: false
-        Target: es2020
-        Sourcemap: true
-        EntryPoints:
-          - app.ts
-        External:
-          - "@aws-sdk/*"
+
+  QuizAnswersTable:
+    Type: AWS::DynamoDB::Table
     Properties:
-      CodeUri: hello-world/
-      Handler: app.lambdaHandler
-      Runtime: nodejs24.x
-      Architectures:
-        - x86_64
-      Events:
-        HelloWorld:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /hello
-            Method: get
+      TableName: quiz-answers
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: studentId
+          AttributeType: S
+        - AttributeName: questionId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: studentId
+          KeyType: HASH
+        - AttributeName: questionId
+          KeyType: RANGE
 
   AnswerSubmissionFunction:
     Type: AWS::Serverless::Function
@@ -50,10 +42,16 @@ Resources:
           - "@aws-sdk/*"
     Properties:
       CodeUri: answer-submission/
-      Handler: app.lambdaHandler
+      Handler: dist/answer-submission/app.lambdaHandler
       Runtime: nodejs24.x
       Architectures:
         - x86_64
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref QuizAnswersTable
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref QuizAnswersTable
       Events:
         AnswerSubmission:
           Type: Api
@@ -83,3 +81,6 @@ Outputs:
   AnswerSubmissionFunctionIamRole:
     Description: "Implicit IAM Role created for Answer Submission function"
     Value: !GetAtt AnswerSubmissionFunctionRole.Arn
+  QuizAnswersTableName:
+    Description: "DynamoDB table name"
+    Value: !Ref QuizAnswersTable

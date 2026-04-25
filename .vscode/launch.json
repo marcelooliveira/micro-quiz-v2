@@ -1,76 +1,42 @@
 {
   "configurations": [
     {
-      "type": "aws-sam",
-      "request": "direct-invoke",
-      "name": "micro-quiz-v2:HelloWorldFunction (nodejs24.x)",
-      "invokeTarget": {
-        "target": "template",
-        "templatePath": "${workspaceFolder}/src/micro-quiz-v2/template.yaml",
-        "logicalId": "HelloWorldFunction"
-      },
-      "lambda": {
-        "payload": {},
-        "environmentVariables": {},
-        "runtime": "nodejs24.x"
+      "name": "Answer Submission: local (no Docker)",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/micro-quiz-v2/answer-submission/dist/answer-submission/local-server.js",
+      "cwd": "${workspaceFolder}/src/micro-quiz-v2/answer-submission",
+      "preLaunchTask": "tsc: build answer-submission",
+      "sourceMaps": true,
+      "outFiles": ["${workspaceFolder}/src/micro-quiz-v2/answer-submission/dist/**/*.js"],
+      "env": {
+        "TABLE_NAME": "quiz-answers",
+        "AWS_ENDPOINT_URL": "http://localhost:4566",
+        "AWS_ACCESS_KEY_ID": "test",
+        "AWS_SECRET_ACCESS_KEY": "test",
+        "AWS_REGION": "us-east-1"
       }
     },
     {
-      "type": "aws-sam",
-      "request": "direct-invoke",
-      "name": "API micro-quiz-v2:HelloWorldFunction (nodejs24.x)",
-      "invokeTarget": {
-        "target": "api",
-        "templatePath": "${workspaceFolder}/src/micro-quiz-v2/template.yaml",
-        "logicalId": "HelloWorldFunction"
-      },
-      "api": {
-        "path": "/hello",
-        "httpMethod": "get",
-        "payload": {
-          "json": {}
-        }
-      },
-      "lambda": {
-        "runtime": "nodejs24.x"
-      }
+      "name": "SAM: start local API",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "sam local start-api -d 5858 --env-vars env.local.json",
+      "cwd": "${workspaceFolder}/src/micro-quiz-v2",
+      "preLaunchTask": "sam: build"
     },
     {
-      "type": "aws-sam",
-      "request": "direct-invoke",
-      "name": "micro-quiz-v2:AnswerSubmissionFunction (nodejs24.x)",
-      "invokeTarget": {
-        "target": "template",
-        "templatePath": "${workspaceFolder}/src/micro-quiz-v2/template.yaml",
-        "logicalId": "AnswerSubmissionFunction"
-      },
-      "lambda": {
-        "payload": {},
-        "environmentVariables": {},
-        "runtime": "nodejs24.x"
-      },
-      "sourceRoot": "${workspaceFolder}/src/micro-quiz-v2/answer-submission"
-    },
-    {
-      "type": "aws-sam",
-      "request": "direct-invoke",
-      "name": "API micro-quiz-v2:AnswerSubmissionFunction (nodejs24.x)",
-      "invokeTarget": {
-        "target": "api",
-        "templatePath": "${workspaceFolder}/src/micro-quiz-v2/template.yaml",
-        "logicalId": "AnswerSubmissionFunction"
-      },
-      "api": {
-        "path": "/answer-submission",
-        "httpMethod": "post",
-        "payload": {
-          "json": {}
+        "name": "Attach to SAM Local",
+        "type": "node",
+        "request": "attach",
+        "address": "127.0.0.1",
+        "port": 5858,
+        "localRoot": "${workspaceFolder}/src/micro-quiz-v2/.aws-sam/build/AnswerSubmissionFunction",
+        "remoteRoot": "/var/task",
+        "sourceMaps": true,
+        "sourceMapPathOverrides": {
+            "../*": "${workspaceFolder}/src/micro-quiz-v2/answer-submission/*"
         }
-      },
-      "lambda": {
-        "runtime": "nodejs24.x"
-      },
-      "sourceRoot": "${workspaceFolder}/src/micro-quiz-v2/answer-submission"
     }
   ]
 }

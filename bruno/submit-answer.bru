@@ -1,0 +1,23 @@
+meta {
+  name: Submit Answer
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/answer-submission
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "studentId": "student-001",
+    "questionId": "question-001",
+    "answers": "A,B"
+  }
+}
